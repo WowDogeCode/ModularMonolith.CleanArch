@@ -3,8 +3,8 @@
     public class Product
     {
         public int ProductId { get; }
-        public int? SupplierId { get; private set; }
-        public int? CategoryId { get; private set; }
+        public int? SupplierId { get; set; }
+        public int? CategoryId { get; set; }
         public string ProductName { get; private set; }
         public string? QuantityPerUnit { get; private set; }
         public int? UnitsInStock { get; private set; }
