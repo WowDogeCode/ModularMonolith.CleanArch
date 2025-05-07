@@ -1,8 +1,10 @@
-﻿namespace Orders.Domain.Entities
+﻿using Orders.Domain.Abstraction;
+
+namespace Orders.Domain.Entities
 {
-    public class Order
+    public class Order : IEntity
     {
-        public int OrderId { get; }
+        public int Id { get; }
         public int? EmployeeId { get; }
         public int? CustomerId { get; }
         public int? ShipVia { get; }
