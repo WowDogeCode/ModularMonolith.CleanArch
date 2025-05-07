@@ -1,8 +1,10 @@
-﻿namespace Products.Domain.Entities
+﻿using Products.Domain.Abstraction;
+
+namespace Products.Domain.Entities
 {
-    public class Product
+    public class Product : IEntity
     {
-        public int ProductId { get; }
+        public int Id { get; }
         public int? SupplierId { get; set; }
         public int? CategoryId { get; set; }
         public string ProductName { get; private set; }
