@@ -2,11 +2,23 @@
 
 namespace Products.Domain.Entities
 {
-    public class Product : IEntity
+    public sealed class Product : IEntity
     {
+        public Product(int? supplierId, int? categoryId, string productName, string? quantityPerUnit, int? unitsInStock, int? unitsOnOrder, int? reorderLevel, bool discontinued, decimal? unitPrice)
+        {
+            SupplierId = supplierId;
+            CategoryId = categoryId;
+            ProductName = productName;
+            QuantityPerUnit = quantityPerUnit;
+            UnitsInStock = unitsInStock;
+            UnitsOnOrder = unitsOnOrder;
+            ReorderLevel = reorderLevel;
+            Discontinued = discontinued;
+            UnitPrice = unitPrice;
+        }
         public int Id { get; }
-        public int? SupplierId { get; set; }
-        public int? CategoryId { get; set; }
+        public int? SupplierId { get; private set; }
+        public int? CategoryId { get; private set; }
         public string ProductName { get; private set; }
         public string? QuantityPerUnit { get; private set; }
         public int? UnitsInStock { get; private set; }
