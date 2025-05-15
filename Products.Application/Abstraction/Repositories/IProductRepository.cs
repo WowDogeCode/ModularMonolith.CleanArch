@@ -1,11 +1,9 @@
-﻿using Products.Domain.Entities;
+﻿using Common.Application.Abstraction;
+using Products.Domain.Entities;
 
 namespace Products.Application.Abstraction.Repositories
 {
-    public interface IProductRepository
+    public interface IProductRepository : IGenericRepository<Product>
     {
-        void Add(Product product);
-        void Update(Product product);
-        void Delete(int productId);
     }
 }
