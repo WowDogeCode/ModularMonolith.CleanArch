@@ -2,7 +2,7 @@
 
 namespace Common.Infrastructure
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class, new()
+    public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         private readonly ApplicationDbContext _context;
         public GenericRepository(ApplicationDbContext context)
