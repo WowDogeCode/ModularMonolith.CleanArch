@@ -16,7 +16,8 @@ namespace Products.Domain.Entities
             Discontinued = discontinued;
             UnitPrice = unitPrice;
         }
-        public int Id { get; }
+
+        public int Id { get; private set; }
         public int? SupplierId { get; private set; }
         public int? CategoryId { get; private set; }
         public string ProductName { get; private set; }
