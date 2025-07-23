@@ -1,7 +1,9 @@
 using Common.Infrastructure;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Products.Application.Abstraction.Repositories;
 using Products.Application.Products;
+using Products.Application.Products.AddProduct;
 using Products.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +24,8 @@ builder.Services.AddMediatR(cfg =>
 });
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+builder.Services.AddScoped<IValidator<AddProductCommand>, AddProductValidator>();
 
 var app = builder.Build();
 

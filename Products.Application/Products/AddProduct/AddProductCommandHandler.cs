@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Products.Application.Abstraction.Repositories;
 using Products.Domain.Entities;
 
@@ -7,13 +8,23 @@ namespace Products.Application.Products.AddProduct
     public class AddProductCommandHandler : IRequestHandler<AddProductCommand, int>
     {
         private readonly IProductRepository _productRepository;
-        public AddProductCommandHandler(IProductRepository productRepository)
+        private readonly IValidator<AddProductCommand> _validator;
+        public AddProductCommandHandler(IProductRepository productRepository, IValidator<AddProductCommand> validator)
         {
             _productRepository = productRepository;
+            _validator = validator;
         }
 
         public async Task<int> Handle(AddProductCommand request, CancellationToken cancellationToken)
         {
+            // TEMP: Manual validation; switch to pipeline behavior later
+            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+            {
+                throw new ValidationException(validationResult.Errors);
+            }
+
             var productToAdd = new Product(
                 supplierId: request.SupplierId,
                 categoryId: request.CategoryId,
