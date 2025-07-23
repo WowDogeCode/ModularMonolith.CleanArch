@@ -2,7 +2,7 @@
 using Products.Application.Abstraction.Repositories;
 using Products.Domain.Entities;
 
-namespace Products.Application.Products
+namespace Products.Application.Products.AddProduct
 {
     public class AddProductCommandHandler : IRequestHandler<AddProductCommand, int>
     {

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Products.Application.Products
+namespace Products.Application.Products.AddProduct
 {
     public record AddProductCommand : IRequest<int>
     {

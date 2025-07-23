@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Products.Application.Products;
+using Products.Application.Products.AddProduct;
 
 namespace WebAPI.Controllers
 {
