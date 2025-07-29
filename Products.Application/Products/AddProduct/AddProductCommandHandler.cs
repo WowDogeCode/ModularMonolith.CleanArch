@@ -5,7 +5,7 @@ using Products.Domain.Entities;
 
 namespace Products.Application.Products.AddProduct
 {
-    public class AddProductCommandHandler : IRequestHandler<AddProductCommand, int>
+    public sealed class AddProductCommandHandler : IRequestHandler<AddProductCommand, int>
     {
         private readonly IProductRepository _productRepository;
         private readonly IValidator<AddProductCommand> _validator;
@@ -25,7 +25,7 @@ namespace Products.Application.Products.AddProduct
                 throw new ValidationException(validationResult.Errors);
             }
 
-            var productToAdd = new Product(
+            Product productToAdd = new Product(
                 supplierId: request.SupplierId,
                 categoryId: request.CategoryId,
                 productName: request.ProductName,
