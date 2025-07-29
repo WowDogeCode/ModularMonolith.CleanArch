@@ -1,6 +1,10 @@
 using Common.Infrastructure;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Orders.Application.Abstraction.Repositories;
+using Orders.Application.Orders;
+using Orders.Application.Orders.AddOrder;
+using Orders.Infrastructure.Repositories;
 using Products.Application.Abstraction.Repositories;
 using Products.Application.Products;
 using Products.Application.Products.AddProduct;
@@ -20,12 +24,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddMediatR(cfg =>
 {
-    cfg.RegisterServicesFromAssembly(typeof(ProductsMarker).Assembly);
+    cfg.RegisterServicesFromAssemblies(typeof(ProductsMarker).Assembly, typeof(OrdersMarker).Assembly);
 });
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 builder.Services.AddScoped<IValidator<AddProductCommand>, AddProductValidator>();
+builder.Services.AddScoped<IValidator<AddOrderCommand>, AddOrderValidator>();
 
 var app = builder.Build();
 
