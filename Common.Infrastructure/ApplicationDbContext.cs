@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Orders.Domain.Entities;
 using Products.Domain.Entities;
 
 namespace Common.Infrastructure
@@ -18,9 +19,16 @@ namespace Common.Infrastructure
                 entity.Property(e => e.Id).ValueGeneratedOnAdd().HasColumnName("ProductID");
             });
 
+            modelBuilder.Entity<Order>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedOnAdd().HasColumnName("OrderID");
+            });
+
             base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<Order> Orders { get; set; }
     }
 }
