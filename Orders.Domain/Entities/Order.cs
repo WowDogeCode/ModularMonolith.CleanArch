@@ -4,10 +4,39 @@ namespace Orders.Domain.Entities
 {
     public class Order : IEntity
     {
-        public int Id { get; }
-        public int? EmployeeId { get; }
-        public int? CustomerId { get; }
-        public int? ShipVia { get; }
+        public Order(
+            int? employeeId,
+            string? customerId,
+            int? shipVia,
+            DateTime? orderDate,
+            DateTime? requiredDate,
+            DateTime? shippedDate,
+            decimal freight,
+            string? shipName,
+            string? shipAddress,
+            string? shipCity,
+            string? shipRegion,
+            string? shipPostalCode,
+            string? shipCountry)
+        {
+            EmployeeId = employeeId;
+            CustomerId = customerId;
+            ShipVia = shipVia;
+            OrderDate = orderDate;
+            RequiredDate = requiredDate;
+            ShippedDate = shippedDate;
+            Freight = freight;
+            ShipName = shipName;
+            ShipAddress = shipAddress;
+            ShipCity = shipCity;
+            ShipRegion = shipRegion;
+            ShipPostalCode = shipPostalCode;
+            ShipCountry = shipCountry;
+        }
+        public int Id { get; private set; }
+        public int? EmployeeId { get; private set; }
+        public string? CustomerId { get; private set; } // CustomerId type set to string, because NorthwindDB holds CustomerId as string
+        public int? ShipVia { get; private set; }
         public DateTime? OrderDate { get; private set; }
         public DateTime? RequiredDate { get; private set; }
         public DateTime? ShippedDate { get; private set; }
