@@ -1,5 +1,6 @@
 using Common.Infrastructure;
 using FluentValidation;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Orders.Application.Abstraction.Repositories;
 using Orders.Application.Orders;
@@ -9,6 +10,7 @@ using Products.Application.Abstraction.Repositories;
 using Products.Application.Products;
 using Products.Application.Products.AddProduct;
 using Products.Infrastructure.Repositories;
+using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +30,16 @@ builder.Services.AddMediatR(cfg =>
 });
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductReadRepository, ProductReadRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
+builder.Services.AddScoped<IDbConnection>(sp =>
+{
+    var configuration = sp.GetRequiredService<IConfiguration>();
+    var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+    return new SqlConnection(connectionString);
+});
 
 builder.Services.AddScoped<IValidator<AddProductCommand>, AddProductValidator>();
 builder.Services.AddScoped<IValidator<AddOrderCommand>, AddOrderValidator>();
