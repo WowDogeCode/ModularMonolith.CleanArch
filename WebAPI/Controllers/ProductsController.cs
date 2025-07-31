@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Products.Application.Products.AddProduct;
+using Products.Application.Products.Dtos;
+using Products.Application.Products.GetAllProducts;
 
 namespace WebAPI.Controllers
 {
@@ -19,6 +21,13 @@ namespace WebAPI.Controllers
         {
             int result = await _mediator.Send(addProduct).ConfigureAwait(false);
             return Ok(result);
+        }
+
+        [HttpGet("get-all-products")]
+        public async Task<ActionResult<List<ProductDto>>> GetAllProducts(GetAllProductsQuery getAllProducts)
+        {
+            var productsList = await _mediator.Send(getAllProducts).ConfigureAwait(false);
+            return Ok(productsList);
         }
     }
 }
