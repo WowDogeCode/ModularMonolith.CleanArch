@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Common.Application.Abstraction;
+using FluentValidation;
 using MediatR;
 using Orders.Application.Abstraction.Repositories;
 using Orders.Domain.Entities;
@@ -9,10 +10,12 @@ namespace Orders.Application.Orders.AddOrder
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IValidator<AddOrderCommand> _validator;
-        public AddOrderCommandHandler(IOrderRepository orderRepository, IValidator<AddOrderCommand> validator)
+        private readonly IUnitOfWork _unitOfWork;
+        public AddOrderCommandHandler(IOrderRepository orderRepository, IValidator<AddOrderCommand> validator, IUnitOfWork unitOfWork)
         {
             _orderRepository = orderRepository;
             _validator = validator;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<int> Handle(AddOrderCommand request, CancellationToken cancellationToken)
@@ -41,6 +44,7 @@ namespace Orders.Application.Orders.AddOrder
             );
 
             await _orderRepository.AddAsync(orderToAdd).ConfigureAwait(false);
+            await _unitOfWork.CommitAsync(cancellationToken).ConfigureAwait(false);
 
             return orderToAdd.Id;
         }
