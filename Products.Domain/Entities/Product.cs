@@ -27,5 +27,13 @@ namespace Products.Domain.Entities
         public int? ReorderLevel { get; private set; }
         public bool Discontinued { get; private set; }
         public decimal? UnitPrice { get; private set; }
+
+        public void DecreaseStock(int quantity)
+        {
+            if ((UnitsInStock ?? 0) < quantity)
+            {
+                throw new InvalidOperationException("Not enough stock to decrease");
+            }
+        }
     }
 }
