@@ -13,7 +13,6 @@ namespace Common.Infrastructure
         public async Task AddAsync(T entity)
         {
             await _context.AddAsync(entity);
-            await _context.SaveChangesAsync();
         }
         public async Task DeleteAsync(int entityId)
         {
@@ -22,13 +21,20 @@ namespace Common.Infrastructure
             if (entityToDelete != null)
             {
                 _context.Remove(entityToDelete);
-                await _context.SaveChangesAsync();
             }
         }
-        public async Task UpdateAsync(T entity)
+
+        public async Task<T?> GetByIdAsync(int entityId)
+        {
+            T? entity = await _context.Set<T>().FindAsync(entityId);
+
+            return entity;
+        }
+
+        public Task UpdateAsync(T entity)
         {
             _context.Update(entity);
-            await _context.SaveChangesAsync();
+            return Task.CompletedTask;
         }
     }
 }
