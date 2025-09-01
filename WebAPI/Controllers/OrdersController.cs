@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Orders.Application.Orders.AddOrder;
+using Orders.Application.Orders.PlaceOrder;
 
 namespace WebAPI.Controllers
 {
@@ -14,10 +14,10 @@ namespace WebAPI.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("add-order")]
-        public async Task<ActionResult<int>> AddOrder([FromBody] AddOrderCommand addOrder)
+        [HttpPost("place-order")]
+        public async Task<ActionResult<int>> PlaceOrder([FromBody] PlaceOrderCommand placeOrder)
         {
-            int result = await _mediator.Send(addOrder).ConfigureAwait(false);
+            int result = await _mediator.Send(placeOrder).ConfigureAwait(false);
             return Ok(result);
         }
     }

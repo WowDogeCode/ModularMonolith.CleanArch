@@ -4,7 +4,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Orders.Application.Abstraction.Repositories;
 using Orders.Application.Orders;
-using Orders.Application.Orders.AddOrder;
+using Orders.Application.Orders.PlaceOrder;
 using Orders.Infrastructure.Repositories;
 using Products.Application.Abstraction.Repositories;
 using Products.Application.Products;
@@ -42,7 +42,7 @@ builder.Services.AddScoped<IDbConnection>(sp =>
 });
 
 builder.Services.AddScoped<IValidator<AddProductCommand>, AddProductValidator>();
-builder.Services.AddScoped<IValidator<AddOrderCommand>, AddOrderValidator>();
+builder.Services.AddScoped<IValidator<PlaceOrderCommand>, PlaceOrderValidator>();
 
 var app = builder.Build();
 
