@@ -4,21 +4,21 @@ using MediatR;
 using Orders.Application.Abstraction.Repositories;
 using Orders.Domain.Entities;
 
-namespace Orders.Application.Orders.AddOrder
+namespace Orders.Application.Orders.PlaceOrder
 {
-    public sealed class AddOrderCommandHandler : IRequestHandler<AddOrderCommand, int>
+    public sealed class PlaceOrderCommandHandler : IRequestHandler<PlaceOrderCommand, int>
     {
         private readonly IOrderRepository _orderRepository;
-        private readonly IValidator<AddOrderCommand> _validator;
+        private readonly IValidator<PlaceOrderCommand> _validator;
         private readonly IUnitOfWork _unitOfWork;
-        public AddOrderCommandHandler(IOrderRepository orderRepository, IValidator<AddOrderCommand> validator, IUnitOfWork unitOfWork)
+        public PlaceOrderCommandHandler(IOrderRepository orderRepository, IValidator<PlaceOrderCommand> validator, IUnitOfWork unitOfWork)
         {
             _orderRepository = orderRepository;
             _validator = validator;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<int> Handle(AddOrderCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(PlaceOrderCommand request, CancellationToken cancellationToken)
         {
             var validationResult = _validator.Validate(request);
 

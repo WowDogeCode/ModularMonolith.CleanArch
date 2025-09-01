@@ -1,8 +1,8 @@
 ﻿using MediatR;
 
-namespace Orders.Application.Orders.AddOrder
+namespace Orders.Application.Orders.PlaceOrder
 {
-    public record AddOrderCommand : IRequest<int>
+    public record PlaceOrderCommand : IRequest<int>
     {
         public int? EmployeeId { get; init; }
         public string? CustomerId { get; init; }
@@ -19,3 +19,5 @@ namespace Orders.Application.Orders.AddOrder
         public string? ShipCountry { get; init; }
     }
 }
+
+//PlaceOrderCommand validator should also have some OrderItem inside right? Because Price and ProductId are missing.

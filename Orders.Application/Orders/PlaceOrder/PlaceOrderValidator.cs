@@ -1,16 +1,11 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Orders.Application.Orders.PlaceOrder;
 
-namespace Orders.Application.Orders.AddOrder
+namespace Orders.Application.Orders.PlaceOrder
 {
-    public sealed class AddOrderValidator : AbstractValidator<AddOrderCommand>
+    public sealed class PlaceOrderValidator : AbstractValidator<PlaceOrderCommand>
     {
-        public AddOrderValidator()
+        public PlaceOrderValidator()
         {
             RuleFor(x => x.CustomerId)
                 .MinimumLength(0)
