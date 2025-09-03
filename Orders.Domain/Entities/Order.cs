@@ -4,7 +4,7 @@ namespace Orders.Domain.Entities
 {
     public class Order : IEntity
     {
-        public Order(
+        private Order(
             int? employeeId,
             string? customerId,
             int? shipVia,
@@ -47,5 +47,54 @@ namespace Orders.Domain.Entities
         public string? ShipRegion { get; private set; }
         public string? ShipPostalCode { get; private set; }
         public string? ShipCountry { get; private set; }
+
+        private readonly List<OrderDetail> _orderDetails = new();
+        public IReadOnlyCollection<OrderDetail> OrderDetails => _orderDetails.AsReadOnly();
+
+        public static Order Create(
+            int? employeeId,
+            string? customerId,
+            int? shipVia,
+            DateTime? orderDate,
+            DateTime? requiredDate,
+            DateTime? shippedDate,
+            decimal freight,
+            string? shipName,
+            string? shipAddress,
+            string? shipCity,
+            string? shipRegion,
+            string? shipPostalCode,
+            string? shipCountry,
+            List<OrderDetail> orderDetails)
+        {
+            Order order = new Order(
+                employeeId,
+                customerId,
+                shipVia,
+                orderDate,
+                requiredDate,
+                shippedDate,
+                freight,
+                shipName,
+                shipAddress,
+                shipCity,
+                shipRegion,
+                shipPostalCode,
+                shipCountry);
+
+            if (orderDetails == null || orderDetails.Count == 0)
+            {
+                throw new ArgumentException("An order must contain at least one order detail");   
+            }
+
+            order._orderDetails.AddRange(orderDetails);
+
+            return order;
+        }
+
+        public void AddOrderDetail(OrderDetail orderDetail)
+        {
+            _orderDetails.Add(orderDetail);
+        }
     }
 }
