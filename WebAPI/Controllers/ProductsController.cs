@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Products.Application.Products.AddProduct;
-using Products.Application.Products.Dtos;
+using Products.Application.Products.DTOs;
 using Products.Application.Products.GetAllProducts;
 using Products.Application.Products.ReduceStock;
 

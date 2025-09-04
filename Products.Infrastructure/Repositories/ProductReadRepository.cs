@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using Products.Application.Abstraction.Repositories;
-using Products.Application.Products.Dtos;
+using Products.Application.Products.DTOs;
 using Products.Infrastructure.Utils;
 using System.Data;
 
