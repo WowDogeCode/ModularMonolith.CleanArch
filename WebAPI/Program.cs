@@ -1,4 +1,6 @@
+using Common.Application.Abstraction;
 using Common.Infrastructure;
+using Common.Infrastructure.UoW;
 using FluentValidation;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +30,8 @@ builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssemblies(typeof(ProductsMarker).Assembly, typeof(OrdersMarker).Assembly);
 });
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductReadRepository, ProductReadRepository>();
