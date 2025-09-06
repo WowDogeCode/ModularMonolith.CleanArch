@@ -13,6 +13,9 @@ namespace Common.Infrastructure.Configurations
             builder.Property(p => p.Id)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("ProductID");
+
+            builder.Property(p => p.UnitPrice)
+                .HasColumnType("decimal(18,2)");
         }
     }
 }

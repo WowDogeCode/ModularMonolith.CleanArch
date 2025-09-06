@@ -13,6 +13,9 @@ namespace Common.Infrastructure.Configurations
             builder.Property(o => o.Id)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("OrderID");
+
+            builder.Property(o => o.Freight)
+                .HasColumnType("decimal(18,2)");
         }
     }
 }
