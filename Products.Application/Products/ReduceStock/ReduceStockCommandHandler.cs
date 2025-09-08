@@ -1,5 +1,4 @@
-﻿using Common.Application.Abstraction;
-using FluentValidation;
+﻿using FluentValidation;
 using MediatR;
 using Products.Application.Abstraction.Repositories;
 using Products.Domain.Entities;
@@ -9,12 +8,10 @@ namespace Products.Application.Products.ReduceStock
     public sealed class ReduceStockCommandHandler : IRequestHandler<ReduceStockCommand, bool>
     {
         private readonly IProductRepository _productRepository;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IValidator<ReduceStockCommand> _validator;
-        public ReduceStockCommandHandler(IProductRepository productRepository, IUnitOfWork unitOfWork, IValidator<ReduceStockCommand> validator)
+        public ReduceStockCommandHandler(IProductRepository productRepository, IValidator<ReduceStockCommand> validator)
         {
             _productRepository = productRepository;
-            _unitOfWork = unitOfWork;
             _validator = validator;
         }
 
@@ -32,8 +29,6 @@ namespace Products.Application.Products.ReduceStock
             if (product != null)
             {
                 product.DecreaseStock(request.Quantity);
-
-                await _unitOfWork.CommitAsync(cancellationToken);
 
                 return true;
             }
