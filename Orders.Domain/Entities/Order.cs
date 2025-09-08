@@ -8,7 +8,7 @@ namespace Orders.Domain.Entities
             int? employeeId,
             string? customerId,
             int? shipVia,
-            DateTime? orderDate,
+            DateTime orderDate,
             DateTime? requiredDate,
             DateTime? shippedDate,
             decimal freight,
@@ -37,7 +37,7 @@ namespace Orders.Domain.Entities
         public int? EmployeeId { get; private set; }
         public string? CustomerId { get; private set; } // CustomerId type set to string, because NorthwindDB holds CustomerId as string
         public int? ShipVia { get; private set; }
-        public DateTime? OrderDate { get; private set; }
+        public DateTime OrderDate { get; private set; }
         public DateTime? RequiredDate { get; private set; }
         public DateTime? ShippedDate { get; private set; }
         public decimal Freight { get; private set; }
@@ -55,10 +55,9 @@ namespace Orders.Domain.Entities
             int? employeeId,
             string? customerId,
             int? shipVia,
-            DateTime? orderDate,
             DateTime? requiredDate,
             DateTime? shippedDate,
-            decimal freight,
+            decimal? freight,
             string? shipName,
             string? shipAddress,
             string? shipCity,
@@ -67,25 +66,25 @@ namespace Orders.Domain.Entities
             string? shipCountry,
             List<OrderDetail> orderDetails)
         {
+            if (orderDetails == null || orderDetails.Count == 0)
+            {
+                throw new ArgumentException("An order must contain at least one order detail");
+            }
+
             Order order = new Order(
                 employeeId,
                 customerId,
                 shipVia,
-                orderDate,
+                DateTime.UtcNow,
                 requiredDate,
                 shippedDate,
-                freight,
+                freight ?? 0m,
                 shipName,
                 shipAddress,
                 shipCity,
                 shipRegion,
                 shipPostalCode,
                 shipCountry);
-
-            if (orderDetails == null || orderDetails.Count == 0)
-            {
-                throw new ArgumentException("An order must contain at least one order detail");   
-            }
 
             order._orderDetails.AddRange(orderDetails);
 
@@ -94,6 +93,12 @@ namespace Orders.Domain.Entities
 
         public void AddOrderDetail(OrderDetail orderDetail)
         {
+            if(orderDetail == null)
+            {
+                throw new ArgumentNullException(nameof(orderDetail));
+            }
+
+            orderDetail.SetOrder(this);
             _orderDetails.Add(orderDetail);
         }
     }
