@@ -7,7 +7,7 @@ namespace Products.Application.Products.ReduceStock
         public ReduceStockValidator()
         {
             RuleFor(x => x.ProductId).GreaterThan(0).WithMessage("Product id value must be greater than 0");
-            RuleFor(x => x.Quantity).GreaterThan(0).WithMessage("Quantity value must be greater than 0");
+            RuleFor(x => x.Quantity).GreaterThan((short)0).WithMessage("Quantity value must be greater than 0");
         }
     }
 }
