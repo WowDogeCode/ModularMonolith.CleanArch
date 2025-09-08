@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Orders.Application.Orders.PlaceOrder;
 
 namespace Orders.Application.Orders.PlaceOrder
 {
@@ -22,22 +21,18 @@ namespace Orders.Application.Orders.PlaceOrder
                 .When(x => x.ShipVia.HasValue)
                 .WithMessage("Ship via must be greater than 0");
 
-            RuleFor(x => x.OrderDate)
-                .LessThanOrEqualTo(DateTime.Now)
-                .WithMessage("Order date cannot be in the future");
-
             RuleFor(x => x.ShipAddress)
                 .NotEmpty()
                 .WithMessage("Shipping address cannot be empty");
 
             RuleFor(x => x.RequiredDate)
-                .GreaterThan(x => x.OrderDate)
-                .WithMessage("Required date must be after order date");
+                .GreaterThan(x => DateTime.UtcNow)
+                .WithMessage("Required date must be in the future");
 
             RuleFor(x => x.ShippedDate)
-                .GreaterThan(x => x.OrderDate)
+                .GreaterThan(x => DateTime.UtcNow)
                 .When(x => x.ShippedDate.HasValue)
-                .WithMessage("Shipped date must be after order date");
+                .WithMessage("Shipped date must be in the future");
 
             RuleFor(x => x.Freight)
                 .GreaterThan(0)
@@ -70,6 +65,10 @@ namespace Orders.Application.Orders.PlaceOrder
                 .WithMessage("Ship country is required")
                 .Matches(@"^[A-Za-z\s]+$")
                 .WithMessage("Ship country must contain only letters and spaces");
+
+            RuleFor(x => x.OrderDetails)
+                .NotEmpty()
+                .WithMessage("Order must contain at least one item");
         }
     }
 }
