@@ -9,6 +9,7 @@
         public decimal Discount { get; private set; }
 
         public Order Order { get; private set; } = default!;
+        internal void SetOrder(Order order) => Order = order;
 
         public OrderDetail(int productId, decimal unitPrice, short quantity, decimal discount)
         {
