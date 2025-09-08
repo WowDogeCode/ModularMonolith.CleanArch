@@ -17,7 +17,7 @@ namespace Products.Application.Products.AddProduct
                 .WithMessage("Price must be between 0 and 10000");
 
             RuleFor(x => x.UnitsInStock)
-                .GreaterThanOrEqualTo(0)
+                .GreaterThanOrEqualTo((short)0)
                 .WithMessage("Units in stock must be greater or equal to 0");
 
             RuleFor(x => x.CategoryId)
