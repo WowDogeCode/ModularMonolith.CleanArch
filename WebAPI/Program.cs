@@ -11,6 +11,8 @@ using Orders.Infrastructure.Repositories;
 using Products.Application.Abstraction.Repositories;
 using Products.Application.Products;
 using Products.Application.Products.AddProduct;
+using Products.Application.Products.ReduceStock;
+using Products.Application.Services;
 using Products.Infrastructure.Repositories;
 using System.Data;
 
@@ -37,7 +39,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductReadRepository, ProductReadRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
-builder.Services.AddScoped<IDbConnection>(sp =>
+builder.Services.AddTransient<IDbConnection>(sp =>
 {
     var configuration = sp.GetRequiredService<IConfiguration>();
     var connectionString = configuration.GetConnectionString("DefaultConnection");
@@ -47,6 +49,9 @@ builder.Services.AddScoped<IDbConnection>(sp =>
 
 builder.Services.AddScoped<IValidator<AddProductCommand>, AddProductValidator>();
 builder.Services.AddScoped<IValidator<PlaceOrderCommand>, PlaceOrderValidator>();
+builder.Services.AddScoped<IValidator<ReduceStockCommand>, ReduceStockValidator>();
+
+builder.Services.AddScoped<IInventoryService, InventoryService>();
 
 var app = builder.Build();
 
