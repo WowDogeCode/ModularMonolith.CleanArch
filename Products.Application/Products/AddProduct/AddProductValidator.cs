@@ -1,11 +1,15 @@
 ﻿using FluentValidation;
+using Products.Application.Abstraction.Repositories;
 
 namespace Products.Application.Products.AddProduct
 {
     public sealed class AddProductValidator : AbstractValidator<AddProductCommand>
     {
-        public AddProductValidator()
+        private readonly IProductRepository _productRepository;
+        public AddProductValidator(IProductRepository productRepository)
         {
+            _productRepository = productRepository;
+
             RuleFor(x => x.ProductName)
                 .NotEmpty().WithMessage("Product name is required")
                 .Length(3, 100).WithMessage("Product name length must be between 3 and 100 characters")
@@ -23,6 +27,17 @@ namespace Products.Application.Products.AddProduct
             RuleFor(x => x.CategoryId)
                 .GreaterThan(0)
                 .WithMessage("Category id must be greater than 0");
+
+            RuleFor(x => x.ProductName)
+                .NotEmpty()
+                .MustAsync(BeUniqueName)
+                .WithMessage("Product name must be unique");
+        }
+        private async Task<bool> BeUniqueName(string productName, CancellationToken cancellationToken)
+        {
+            var productExists = await _productRepository.GetProductByName(productName, cancellationToken);
+
+            return productExists != null ? true : false;
         }
     }
 }
