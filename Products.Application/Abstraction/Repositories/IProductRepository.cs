@@ -5,5 +5,6 @@ namespace Products.Application.Abstraction.Repositories
 {
     public interface IProductRepository : IGenericRepository<Product>
     {
+        Task<Product?> GetProductByName(string productName, CancellationToken cancellationToken);
     }
 }
