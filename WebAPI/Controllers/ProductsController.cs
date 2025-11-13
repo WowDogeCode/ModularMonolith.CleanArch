@@ -4,6 +4,7 @@ using Products.Application.Products.AddProduct;
 using Products.Application.Products.DTOs;
 using Products.Application.Products.GetAllProducts;
 using Products.Application.Products.ReduceStock;
+using Products.Application.Products.UpdateProductPrice;
 
 namespace WebAPI.Controllers
 {
@@ -25,7 +26,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("get-all-products")]
-        public async Task<ActionResult<List<ProductDto>>> GetAllProducts(GetAllProductsQuery getAllProductsQuery)
+        public async Task<ActionResult<List<ProductDto>>> GetAllProducts([FromQuery] GetAllProductsQuery getAllProductsQuery)
         {
             var productsList = await _mediator.Send(getAllProductsQuery).ConfigureAwait(false);
             return Ok(productsList);
@@ -36,6 +37,13 @@ namespace WebAPI.Controllers
         {
             bool reduceStock = await _mediator.Send(reduceStockCommand).ConfigureAwait(false);
             return Ok(reduceStock);
+        }
+
+        [HttpPost("update-product-price")]
+        public async Task<ActionResult<ProductDto>> UpdateProductPrice(UpdateProductPriceCommand updateProductPriceCommand)
+        {
+            var product = await _mediator.Send(updateProductPriceCommand).ConfigureAwait(false);
+            return Ok(product);
         }
     }
 }
