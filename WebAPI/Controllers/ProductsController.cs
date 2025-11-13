@@ -5,6 +5,7 @@ using Products.Application.Products.DTOs;
 using Products.Application.Products.GetAllProducts;
 using Products.Application.Products.ReduceStock;
 using Products.Application.Products.UpdateProductPrice;
+using Products.Application.Products.UpdateProductStock;
 
 namespace WebAPI.Controllers
 {
@@ -19,9 +20,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add-product")]
-        public async Task<ActionResult<int>> AddProduct([FromBody] AddProductCommand addProduct)
+        public async Task<ActionResult<int>> AddProduct([FromBody] AddProductCommand addProductCommand)
         {
-            int result = await _mediator.Send(addProduct).ConfigureAwait(false);
+            int result = await _mediator.Send(addProductCommand).ConfigureAwait(false);
             return Ok(result);
         }
 
@@ -40,9 +41,16 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("update-product-price")]
-        public async Task<ActionResult<ProductDto>> UpdateProductPrice(UpdateProductPriceCommand updateProductPriceCommand)
+        public async Task<ActionResult<ProductDto>> UpdateProductPrice([FromBody] UpdateProductPriceCommand updateProductPriceCommand)
         {
             var product = await _mediator.Send(updateProductPriceCommand).ConfigureAwait(false);
+            return Ok(product);
+        }
+
+        [HttpPost("update-product-stock")]
+        public async Task<ActionResult<ProductDto>> UpdateProductStock([FromBody] UpdateProductStockCommand updateProductStockCommand)
+        {
+            var product = await _mediator.Send(updateProductStockCommand).ConfigureAwait(false);
             return Ok(product);
         }
     }
