@@ -13,6 +13,7 @@ using Products.Application.Products;
 using Products.Application.Products.AddProduct;
 using Products.Application.Products.ReduceStock;
 using Products.Application.Products.UpdateProductPrice;
+using Products.Application.Products.UpdateProductStock;
 using Products.Application.Services;
 using Products.Infrastructure.Repositories;
 using System.Data;
@@ -52,6 +53,7 @@ builder.Services.AddTransient<IDbConnection>(sp =>
 builder.Services.AddScoped<IValidator<AddProductCommand>, AddProductValidator>();
 builder.Services.AddScoped<IValidator<ReduceStockCommand>, ReduceStockValidator>();
 builder.Services.AddScoped<IValidator<UpdateProductPriceCommand>, UpdateProductPriceValidator>();
+builder.Services.AddScoped<IValidator<UpdateProductStockCommand>, UpdateProductStockValidator>();
 
 //Orders
 builder.Services.AddScoped<IValidator<PlaceOrderCommand>, PlaceOrderValidator>();
