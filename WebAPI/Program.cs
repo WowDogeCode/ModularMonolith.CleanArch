@@ -12,6 +12,7 @@ using Products.Application.Abstraction.Repositories;
 using Products.Application.Products;
 using Products.Application.Products.AddProduct;
 using Products.Application.Products.ReduceStock;
+using Products.Application.Products.UpdateProductPrice;
 using Products.Application.Services;
 using Products.Infrastructure.Repositories;
 using System.Data;
@@ -47,9 +48,13 @@ builder.Services.AddTransient<IDbConnection>(sp =>
     return new SqlConnection(connectionString);
 });
 
+//Products
 builder.Services.AddScoped<IValidator<AddProductCommand>, AddProductValidator>();
-builder.Services.AddScoped<IValidator<PlaceOrderCommand>, PlaceOrderValidator>();
 builder.Services.AddScoped<IValidator<ReduceStockCommand>, ReduceStockValidator>();
+builder.Services.AddScoped<IValidator<UpdateProductPriceCommand>, UpdateProductPriceValidator>();
+
+//Orders
+builder.Services.AddScoped<IValidator<PlaceOrderCommand>, PlaceOrderValidator>();
 
 builder.Services.AddScoped<IInventoryService, InventoryService>();
 
