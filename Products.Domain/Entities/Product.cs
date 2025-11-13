@@ -52,5 +52,9 @@ namespace Products.Domain.Entities
 
             UnitsInStock -= quantity;
         }
+        public void UpdatePrice(decimal price)
+        {
+            UnitPrice = price;
+        }
     }
 }
