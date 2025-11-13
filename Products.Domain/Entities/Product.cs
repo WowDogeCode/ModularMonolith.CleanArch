@@ -56,5 +56,10 @@ namespace Products.Domain.Entities
         {
             UnitPrice = price;
         }
+
+        public void UpdateStock(short stock)
+        {
+            UnitsInStock = stock;
+        }
     }
 }
