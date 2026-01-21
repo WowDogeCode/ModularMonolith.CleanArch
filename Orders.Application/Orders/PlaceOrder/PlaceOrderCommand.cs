@@ -10,7 +10,6 @@ namespace Orders.Application.Orders.PlaceOrder
         public string? CustomerId { get; init; }
         public int? ShipVia { get; init; }
         public DateTime? RequiredDate { get; init; }
-        public DateTime? ShippedDate { get; init; }
         public decimal? Freight { get; init; }
         public string? ShipName { get; init; }
         public string? ShipAddress { get; init; }

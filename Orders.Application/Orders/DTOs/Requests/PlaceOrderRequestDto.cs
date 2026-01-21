@@ -6,7 +6,6 @@
         public int? EmployeeId { get; set; }
         public int? ShipVia { get; set; }
         public DateTime? RequiredDate { get; set; }
-        public DateTime? ShippedDate { get; set; }
         public decimal? Freight { get; set; }
         public string? ShipName { get; set; }
         public string? ShipAddress { get; set; }

@@ -33,7 +33,7 @@ namespace Orders.Application.Orders.PlaceOrder
             var orderDetails = request.OrderDetails.Select(dto => new OrderDetail(dto.ProductId, dto.UnitPrice, dto.Quantity, dto.Discount)).ToList();
 
             var orderToAdd = Order.Create(request.EmployeeId, request.CustomerId, request.ShipVia,
-                request.RequiredDate, request.ShippedDate, request.Freight, request.ShipName, request.ShipAddress,
+                request.RequiredDate, null, request.Freight, request.ShipName, request.ShipAddress,
                 request.ShipCity, request.ShipRegion, request.ShipPostalCode, request.ShipCountry,
                 orderDetails);
 

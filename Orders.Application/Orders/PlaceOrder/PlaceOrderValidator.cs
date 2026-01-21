@@ -29,11 +29,6 @@ namespace Orders.Application.Orders.PlaceOrder
                 .GreaterThan(x => DateTime.UtcNow)
                 .WithMessage("Required date must be in the future");
 
-            RuleFor(x => x.ShippedDate)
-                .GreaterThan(x => DateTime.UtcNow)
-                .When(x => x.ShippedDate.HasValue)
-                .WithMessage("Shipped date must be in the future");
-
             RuleFor(x => x.Freight)
                 .GreaterThan(0)
                 .WithMessage("Freight cannot be less than 0");

@@ -25,7 +25,6 @@ namespace WebAPI.Controllers
                 CustomerId = placeOrder.CustomerId,
                 ShipVia = placeOrder.ShipVia,
                 RequiredDate = placeOrder.RequiredDate,
-                ShippedDate = placeOrder.ShippedDate,
                 Freight = placeOrder.Freight,
                 ShipName = placeOrder.ShipName,
                 ShipAddress = placeOrder.ShipAddress,
