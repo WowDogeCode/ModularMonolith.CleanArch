@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Orders.Application.Orders.DTOs.Requests;
 using Orders.Application.Orders.DTOs.Responses;
 using Orders.Application.Orders.PlaceOrder;
+using Orders.Application.Orders.ShipOrder;
 
 namespace WebAPI.Controllers
 {
@@ -33,6 +34,18 @@ namespace WebAPI.Controllers
                 ShipPostalCode = placeOrder.ShipPostalCode,
                 ShipCountry = placeOrder.ShipCountry,
                 OrderDetails = placeOrder.OrderDetails
+            };
+
+            var result = await _mediator.Send(command).ConfigureAwait(false);
+            return Ok(result);
+        }
+
+        [HttpPost("ship-order")]
+        public async Task<ActionResult<ShipOrderResponseDto>> ShipOrder([FromBody] ShipOrderRequestDto shipOrder)
+        {
+            var command = new ShipOrderCommand
+            {
+                OrderId = shipOrder.OrderId
             };
 
             var result = await _mediator.Send(command).ConfigureAwait(false);

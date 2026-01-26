@@ -93,13 +93,28 @@ namespace Orders.Domain.Entities
 
         public void AddOrderDetail(OrderDetail orderDetail)
         {
-            if(orderDetail == null)
+            if (orderDetail == null)
             {
                 throw new ArgumentNullException(nameof(orderDetail));
             }
 
             orderDetail.SetOrder(this);
             _orderDetails.Add(orderDetail);
+        }
+
+        public void ShipOrder(DateTime shippedDate)
+        {
+            if (ShippedDate.HasValue)
+            {
+                throw new InvalidOperationException("Order is already shipped");
+            }
+
+            if (shippedDate < OrderDate)
+            {
+                throw new InvalidOperationException("Shipped date cannot be earlier than order date");
+            }
+
+            ShippedDate = shippedDate;
         }
     }
 }
