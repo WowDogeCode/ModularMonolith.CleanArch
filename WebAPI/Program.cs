@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Orders.Application.Abstraction.Repositories;
 using Orders.Application.Orders;
 using Orders.Application.Orders.PlaceOrder;
+using Orders.Application.Orders.ShipOrder;
 using Orders.Infrastructure.Repositories;
 using Products.Application.Abstraction.Repositories;
 using Products.Application.Products;
@@ -57,6 +58,7 @@ builder.Services.AddScoped<IValidator<UpdateProductStockCommand>, UpdateProductS
 
 //Orders
 builder.Services.AddScoped<IValidator<PlaceOrderCommand>, PlaceOrderValidator>();
+builder.Services.AddScoped<IValidator<ShipOrderCommand>, ShipOrderValidator>();
 
 builder.Services.AddScoped<IInventoryService, InventoryService>();
 
