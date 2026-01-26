@@ -23,14 +23,12 @@ namespace Common.Infrastructure
                 _context.Remove(entityToDelete);
             }
         }
-
         public async Task<T?> GetByIdAsync(int entityId)
         {
             T? entity = await _context.Set<T>().FindAsync(entityId);
 
             return entity;
         }
-
         public Task UpdateAsync(T entity)
         {
             _context.Update(entity);
