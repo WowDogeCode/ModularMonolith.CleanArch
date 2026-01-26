@@ -37,14 +37,9 @@ namespace Orders.Application.Orders.ShipOrder
             order.ShipOrder(DateTime.UtcNow);
             await _unitOfWork.CommitAsync(cancellationToken);
 
-            if (!order.ShippedDate.HasValue)
-            {
-                throw new Exception("Order was not shipped successfully");
-            }
-
             return new ShipOrderResponseDto
             {
-                ShippedDate = order.ShippedDate.Value
+                ShippedDate = order.ShippedDate!.Value
             };
         }
     }
