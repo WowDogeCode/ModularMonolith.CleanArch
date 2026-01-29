@@ -1,4 +1,4 @@
-﻿--Get all products from Products table
+﻿-- Description: SQL query to retrieve all products from the PRODUCTS table.
 SELECT ProductID AS Id,
     SupplierId,
     CategoryId,

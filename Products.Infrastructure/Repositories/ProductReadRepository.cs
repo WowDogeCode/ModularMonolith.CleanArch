@@ -15,7 +15,7 @@ namespace Products.Infrastructure.Repositories
         }
         public async Task<List<ProductDto>> GetAllProductsAsync(CancellationToken cancellationToken)
         {
-            var sql = SqlLoader.LoadSql("GetAllProducts.sql");
+            var sql = SqlLoader.LoadSql("GetAllProductsAsync.sql");
 
             var result = await _dbConnection.QueryAsync<ProductDto>(
                 new CommandDefinition(sql, cancellationToken: cancellationToken));
