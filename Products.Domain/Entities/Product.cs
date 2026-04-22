@@ -45,7 +45,7 @@ namespace Products.Domain.Entities
                 throw new ArgumentException("Quantity must be greater than zero");
             }
 
-            if (UnitsInStock < quantity)
+            if (UnitsInStock + UnitsOnOrder < quantity)
             {
                 throw new InvalidOperationException("Not enough stock to decrease");
             }
@@ -56,7 +56,6 @@ namespace Products.Domain.Entities
         {
             UnitPrice = price;
         }
-
         public void UpdateStock(short stock)
         {
             UnitsInStock = stock;
