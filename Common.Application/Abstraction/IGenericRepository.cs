@@ -6,5 +6,6 @@
         Task UpdateAsync(T entity);
         Task DeleteAsync(int entityId);
         Task<T?> GetByIdAsync(int entityId);
+        Task<T?> GetByIdAsNoTrackingAsync(int entityId, CancellationToken cancellationToken);
     }
 }

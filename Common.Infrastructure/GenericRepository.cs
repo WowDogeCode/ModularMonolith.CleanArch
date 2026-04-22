@@ -1,4 +1,5 @@
 ﻿using Common.Application.Abstraction;
+using Microsoft.EntityFrameworkCore;
 
 namespace Common.Infrastructure
 {
@@ -29,9 +30,16 @@ namespace Common.Infrastructure
 
             return entity;
         }
+        public async Task<T?> GetByIdAsNoTrackingAsync(int entityId, CancellationToken cancellationToken)
+        {
+            T? entity = await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == entityId, cancellationToken).ConfigureAwait(false);
+
+            return entity;
+        }
         public Task UpdateAsync(T entity)
         {
             _context.Update(entity);
+
             return Task.CompletedTask;
         }
     }
