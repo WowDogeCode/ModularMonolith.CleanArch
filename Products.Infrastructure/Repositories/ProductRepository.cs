@@ -12,11 +12,20 @@ namespace Products.Infrastructure.Repositories
         {
             _context = context;
         }
+
         public async Task<Product?> GetProductByName(string productName, CancellationToken cancellationToken)
         {
             var product = await _context.Products.FirstOrDefaultAsync(p => p.ProductName == productName).ConfigureAwait(false);
 
             return product;
+        }
+        public async Task<bool> TryDecrementStockAsync(int productId, short quantity, CancellationToken cancellationToken)
+        {
+            var affected = await _context.Products.Where(p => p.Id == productId && p.UnitsInStock + p.UnitsOnOrder >= quantity)
+                .ExecuteUpdateAsync(p => p.SetProperty(x => x.UnitsInStock, x => x.UnitsInStock - quantity), cancellationToken)
+                .ConfigureAwait(false);
+
+            return affected > 0;
         }
     }
 }
