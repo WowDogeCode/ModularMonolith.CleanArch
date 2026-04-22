@@ -1,7 +1,10 @@
-﻿namespace Common.Application.Abstraction
+﻿using Common.Application.DTOs;
+
+namespace Common.Application.Abstraction
 {
     public interface IInventoryService
     {
-        Task ReduceStockAsync(int productId, short quantity, CancellationToken cancellationToken);
+        Task<bool> ReduceStockAsync(int productId, short quantity, CancellationToken cancellationToken);
+        Task<List<ProductInventorySnapshotDto>> GetProductInventorySnapshotsAsync(List<int> productIds, CancellationToken cancellationToken);
     }
 }

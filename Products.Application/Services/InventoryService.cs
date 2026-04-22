@@ -1,5 +1,7 @@
 ﻿using Common.Application.Abstraction;
+using Common.Application.DTOs;
 using MediatR;
+using Products.Application.Products.GetProductsInventoryInfo;
 using Products.Application.Products.ReduceStock;
 
 namespace Products.Application.Services
@@ -11,9 +13,18 @@ namespace Products.Application.Services
         {
             _mediator = mediator;
         }
-        public async Task ReduceStockAsync(int productId, short quantity, CancellationToken cancellationToken)
+
+        public async Task<List<ProductInventorySnapshotDto>> GetProductInventorySnapshotsAsync(List<int> productIds, CancellationToken cancellationToken)
         {
-            await _mediator.Send(new ReduceStockCommand { ProductId = productId, Quantity = quantity }, cancellationToken);
+            var response = await _mediator.Send(new GetProductInventorySnapshotsQuery { ProductIds = productIds }, cancellationToken);
+
+            return response;
+        }
+        public async Task<bool> ReduceStockAsync(int productId, short quantity, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(new ReduceStockCommand { ProductId = productId, Quantity = quantity }, cancellationToken);
+            
+            return result;
         }
     }
 }
