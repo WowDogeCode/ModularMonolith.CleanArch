@@ -6,6 +6,13 @@ namespace Orders.Application.Orders.PlaceOrder
     {
         public PlaceOrderValidator()
         {
+            RuleFor(x => x.OrderDetails)
+                .Cascade(CascadeMode.Stop)
+                .NotEmpty()
+                .WithMessage("Order must contain at least one item")
+                .Must(list => list.Count == list.Select(d => d.ProductId).Distinct().Count())
+                .WithMessage("Each product can only be ordered once. Duplicate product ids found in order details.");
+
             RuleFor(x => x.CustomerId)
                 .MinimumLength(0)
                 .When(x => !string.IsNullOrEmpty(x.CustomerId))
@@ -22,8 +29,11 @@ namespace Orders.Application.Orders.PlaceOrder
                 .WithMessage("Ship via must be greater than 0");
 
             RuleFor(x => x.ShipAddress)
+                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .WithMessage("Shipping address cannot be empty");
+                .WithMessage("Shipping address cannot be empty")
+                .Length(1, 200)
+                .WithMessage("Ship address must be between 1 and 200 characters");
 
             RuleFor(x => x.RequiredDate)
                 .GreaterThan(x => DateTime.UtcNow)
@@ -36,10 +46,6 @@ namespace Orders.Application.Orders.PlaceOrder
             RuleFor(x => x.ShipName)
                 .Length(1, 100)
                 .WithMessage("Ship name must be between 1 and 100 characters");
-
-            RuleFor(x => x.ShipAddress)
-                .Length(1, 200)
-                .WithMessage("Ship address must be between 1 and 200 characters");
 
             RuleFor(x => x.ShipCity)
                 .Length(1, 100)
@@ -60,10 +66,6 @@ namespace Orders.Application.Orders.PlaceOrder
                 .WithMessage("Ship country is required")
                 .Matches(@"^[A-Za-z\s]+$")
                 .WithMessage("Ship country must contain only letters and spaces");
-
-            RuleFor(x => x.OrderDetails)
-                .NotEmpty()
-                .WithMessage("Order must contain at least one item");
         }
     }
 }
