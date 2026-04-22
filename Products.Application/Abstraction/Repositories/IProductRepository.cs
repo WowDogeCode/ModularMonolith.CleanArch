@@ -6,5 +6,6 @@ namespace Products.Application.Abstraction.Repositories
     public interface IProductRepository : IGenericRepository<Product>
     {
         Task<Product?> GetProductByName(string productName, CancellationToken cancellationToken);
+        Task<bool> TryDecrementStockAsync(int productId, short quantity, CancellationToken cancellationToken);
     }
 }
