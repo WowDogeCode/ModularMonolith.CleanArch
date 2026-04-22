@@ -1,5 +1,4 @@
-﻿using Common.Application.Abstraction;
-using FluentValidation;
+﻿using FluentValidation;
 using MediatR;
 using Products.Application.Abstraction.Repositories;
 using Products.Domain.Entities;
@@ -10,12 +9,10 @@ namespace Products.Application.Products.ReduceStock
     {
         private readonly IProductRepository _productRepository;
         private readonly IValidator<ReduceStockCommand> _validator;
-        private readonly IUnitOfWork _unitOfWork;
-        public ReduceStockCommandHandler(IProductRepository productRepository, IValidator<ReduceStockCommand> validator, IUnitOfWork unitOfWork)
+        public ReduceStockCommandHandler(IProductRepository productRepository, IValidator<ReduceStockCommand> validator)
         {
             _productRepository = productRepository;
             _validator = validator;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<bool> Handle(ReduceStockCommand request, CancellationToken cancellationToken)
@@ -27,14 +24,13 @@ namespace Products.Application.Products.ReduceStock
                 throw new ValidationException(validationResult.Errors);
             }
 
-            Product? product = await _productRepository.GetByIdAsync(request.ProductId).ConfigureAwait(false);
+            Product? product = await _productRepository.GetByIdAsNoTrackingAsync(request.ProductId, cancellationToken).ConfigureAwait(false);
 
             if (product != null)
             {
-                product.DecreaseStock(request.Quantity);
-                await _unitOfWork.CommitAsync(cancellationToken).ConfigureAwait(false);
+                var result = await _productRepository.TryDecrementStockAsync(request.ProductId, request.Quantity, cancellationToken).ConfigureAwait(false);
 
-                return true;
+                return result;
             }
 
             return false;
