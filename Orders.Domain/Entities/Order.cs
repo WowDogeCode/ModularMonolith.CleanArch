@@ -1,4 +1,5 @@
 ﻿using Orders.Domain.Abstraction;
+using Orders.Domain.Enums;
 
 namespace Orders.Domain.Entities
 {
@@ -17,7 +18,8 @@ namespace Orders.Domain.Entities
             string? shipCity,
             string? shipRegion,
             string? shipPostalCode,
-            string? shipCountry)
+            string? shipCountry,
+            OrderStatus orderStatus)
         {
             EmployeeId = employeeId;
             CustomerId = customerId;
@@ -32,6 +34,7 @@ namespace Orders.Domain.Entities
             ShipRegion = shipRegion;
             ShipPostalCode = shipPostalCode;
             ShipCountry = shipCountry;
+            OrderStatus = orderStatus;
         }
         public int Id { get; private set; }
         public int? EmployeeId { get; private set; }
@@ -47,6 +50,7 @@ namespace Orders.Domain.Entities
         public string? ShipRegion { get; private set; }
         public string? ShipPostalCode { get; private set; }
         public string? ShipCountry { get; private set; }
+        public OrderStatus OrderStatus { get; private set; }
 
         private readonly List<OrderDetail> _orderDetails = new();
         public IReadOnlyCollection<OrderDetail> OrderDetails => _orderDetails.AsReadOnly();
@@ -70,7 +74,7 @@ namespace Orders.Domain.Entities
             {
                 throw new ArgumentException("An order must contain at least one order detail");
             }
-
+            
             Order order = new Order(
                 employeeId,
                 customerId,
@@ -84,7 +88,8 @@ namespace Orders.Domain.Entities
                 shipCity,
                 shipRegion,
                 shipPostalCode,
-                shipCountry);
+                shipCountry,
+                OrderStatus.Pending);
 
             order._orderDetails.AddRange(orderDetails);
 
