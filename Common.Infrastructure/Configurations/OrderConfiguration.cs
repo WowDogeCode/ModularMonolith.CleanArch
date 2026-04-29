@@ -16,6 +16,11 @@ namespace Common.Infrastructure.Configurations
 
             builder.Property(o => o.Freight)
                 .HasColumnType("decimal(18,2)");
+
+            builder.Property(o => o.OrderStatus)
+                .HasConversion<string>()
+                .HasMaxLength(10)
+                .IsRequired();
         }
     }
 }
