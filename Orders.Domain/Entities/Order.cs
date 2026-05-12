@@ -74,7 +74,7 @@ namespace Orders.Domain.Entities
             {
                 throw new ArgumentException("An order must contain at least one order detail");
             }
-            
+
             Order order = new Order(
                 employeeId,
                 customerId,
@@ -119,7 +119,15 @@ namespace Orders.Domain.Entities
                 throw new InvalidOperationException("Shipped date cannot be earlier than order date");
             }
 
+            OrderStatus = OrderStatus.Shipped;
             ShippedDate = shippedDate;
+        }
+
+        public DateTime CancelOrder()
+        {
+            OrderStatus = OrderStatus.Cancelled;
+
+            return DateTime.UtcNow;
         }
     }
 }
