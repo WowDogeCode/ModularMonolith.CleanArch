@@ -2,6 +2,7 @@
 using Common.Application.DTOs;
 using MediatR;
 using Products.Application.Products.GetProductsInventoryInfo;
+using Products.Application.Products.IncreaseStock;
 using Products.Application.Products.ReduceStock;
 
 namespace Products.Application.Services
@@ -20,11 +21,17 @@ namespace Products.Application.Services
 
             return response;
         }
+        public async Task<bool> IncreaseStockAsync(int productId, short quantity, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new IncreaseStockCommand { ProductId = productId, Quantity = quantity }, cancellationToken);
+
+            return response;
+        }
         public async Task<bool> ReduceStockAsync(int productId, short quantity, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new ReduceStockCommand { ProductId = productId, Quantity = quantity }, cancellationToken);
-            
-            return result;
+            var response = await _mediator.Send(new ReduceStockCommand { ProductId = productId, Quantity = quantity }, cancellationToken);
+
+            return response;
         }
     }
 }
