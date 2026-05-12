@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Orders.Application.Orders.CancelOrder;
 using Orders.Application.Orders.DTOs.Requests;
 using Orders.Application.Orders.DTOs.Responses;
 using Orders.Application.Orders.PlaceOrder;
@@ -46,6 +47,18 @@ namespace WebAPI.Controllers
             var command = new ShipOrderCommand
             {
                 OrderId = shipOrder.OrderId
+            };
+
+            var result = await _mediator.Send(command).ConfigureAwait(false);
+            return Ok(result);
+        }
+
+        [HttpPost("cancel-order")]
+        public async Task<ActionResult<CancelOrderResponseDto>> CancelOrder([FromBody] CancelOrderRequestDto cancelOrder)
+        {
+            var command = new CancelOrderCommand
+            {
+                OrderId = cancelOrder.OrderId
             };
 
             var result = await _mediator.Send(command).ConfigureAwait(false);
