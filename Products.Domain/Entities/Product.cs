@@ -52,12 +52,31 @@ namespace Products.Domain.Entities
 
             UnitsInStock -= quantity;
         }
+        public void IncreaseStock(short quantity)
+        {
+            if (quantity <= 0)
+            {
+                throw new ArgumentException("Quantity must be greater than zero");
+            }
+
+            UnitsInStock += quantity;
+        }
         public void UpdatePrice(decimal price)
         {
+            if (price <= 0)
+            {
+                throw new ArgumentException("Price must be greater than zero");
+            }
+
             UnitPrice = price;
         }
         public void UpdateStock(short stock)
         {
+            if (stock < 0)
+            {
+                throw new ArgumentException("Stock must be greater than or equal to zero");
+            }
+
             UnitsInStock = stock;
         }
     }
