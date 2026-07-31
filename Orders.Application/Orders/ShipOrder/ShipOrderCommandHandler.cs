@@ -22,17 +22,14 @@ namespace Orders.Application.Orders.ShipOrder
         public async Task<ShipOrderResponseDto> Handle(ShipOrderCommand request, CancellationToken cancellationToken)
         {
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                throw new ValidationException(validationResult.Errors);
-            }
 
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+            
             Order? order = await _orderRepository.GetByIdAsync(request.OrderId);
 
             if (order == null)
-            {
                 throw new Exception("Order not found");
-            }
 
             order.ShipOrder(DateTime.UtcNow);
             await _unitOfWork.CommitAsync(cancellationToken);
