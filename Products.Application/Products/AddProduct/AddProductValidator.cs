@@ -37,7 +37,7 @@ namespace Products.Application.Products.AddProduct
         {
             var productExists = await _productRepository.GetProductByName(productName, cancellationToken);
 
-            return productExists != null ? true : false;
+            return productExists == null ? true : false;
         }
     }
 }
