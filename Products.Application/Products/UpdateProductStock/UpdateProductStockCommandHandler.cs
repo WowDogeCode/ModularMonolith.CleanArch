@@ -39,6 +39,7 @@ namespace Products.Application.Products.UpdateProductStock
 
             return new ProductDto
             {
+                ProductId = product.Id,
                 CategoryId = product.CategoryId,
                 ProductName = product.ProductName,
                 Discontinued = product.Discontinued,

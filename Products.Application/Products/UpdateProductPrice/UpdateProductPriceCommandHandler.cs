@@ -38,6 +38,7 @@ namespace Products.Application.Products.UpdateProductPrice
 
             return new ProductDto
             {
+                ProductId = product.Id,
                 CategoryId = product.CategoryId,
                 ProductName = product.ProductName,
                 Discontinued = product.Discontinued,
