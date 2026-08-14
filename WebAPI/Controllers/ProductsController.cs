@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Products.Application.Products.AddProduct;
 using Products.Application.Products.DTOs;
+using Products.Application.Products.DTOs.Requests;
 using Products.Application.Products.GetAllProducts;
 using Products.Application.Products.ReduceStock;
 using Products.Application.Products.UpdateProductPrice;
@@ -20,37 +21,70 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add-product")]
-        public async Task<ActionResult<int>> AddProduct([FromBody] AddProductCommand addProductCommand)
+        public async Task<ActionResult<int>> AddProduct([FromBody] AddProductRequestDto addProduct)
         {
-            int result = await _mediator.Send(addProductCommand).ConfigureAwait(false);
-            return Ok(result);
+            var command = new AddProductCommand
+            {
+                CategoryId = addProduct.CategoryId,
+                Discontinued = addProduct.Discontinued,
+                ProductName = addProduct.ProductName,
+                QuantityPerUnit = addProduct.QuantityPerUnit,
+                ReorderLevel = addProduct.ReorderLevel,
+                SupplierId = addProduct.SupplierId,
+                UnitPrice = addProduct.UnitPrice,
+                UnitsInStock = addProduct.UnitsInStock,
+                UnitsOnOrder = addProduct.UnitsOnOrder
+            };
+
+            var result = await _mediator.Send(command).ConfigureAwait(false);
+            return Ok(result.ProductId);
         }
 
         [HttpGet("get-all-products")]
-        public async Task<ActionResult<List<ProductDto>>> GetAllProducts([FromQuery] GetAllProductsQuery getAllProductsQuery)
+        public async Task<ActionResult<List<ProductDto>>> GetAllProducts()
         {
-            var productsList = await _mediator.Send(getAllProductsQuery).ConfigureAwait(false);
+            var query = new GetAllProductsQuery { };
+
+            var productsList = await _mediator.Send(query).ConfigureAwait(false);
             return Ok(productsList);
         }
 
         [HttpPost("reduce-stock")]
-        public async Task<ActionResult<bool>> ReduceStock([FromBody] ReduceStockCommand reduceStockCommand)
+        public async Task<ActionResult<bool>> ReduceStock([FromBody] ReduceStockRequestDto reduceStock)
         {
-            bool reduceStock = await _mediator.Send(reduceStockCommand).ConfigureAwait(false);
-            return Ok(reduceStock);
+            var command = new ReduceStockCommand
+            {
+                ProductId = reduceStock.ProductId,
+                Quantity = reduceStock.Quantity
+            };
+
+            bool reduceStockResult = await _mediator.Send(command).ConfigureAwait(false);
+            return Ok(reduceStockResult);
         }
 
         [HttpPost("update-product-price")]
-        public async Task<ActionResult<ProductDto>> UpdateProductPrice([FromBody] UpdateProductPriceCommand updateProductPriceCommand)
+        public async Task<ActionResult<ProductDto>> UpdateProductPrice([FromBody] UpdateProductPriceRequestDto updateProductPrice)
         {
-            var product = await _mediator.Send(updateProductPriceCommand).ConfigureAwait(false);
+            var command = new UpdateProductPriceCommand
+            {
+                Price = updateProductPrice.Price,
+                ProductId = updateProductPrice.ProductId
+            };
+
+            var product = await _mediator.Send(command).ConfigureAwait(false);
             return Ok(product);
         }
 
         [HttpPost("update-product-stock")]
-        public async Task<ActionResult<ProductDto>> UpdateProductStock([FromBody] UpdateProductStockCommand updateProductStockCommand)
+        public async Task<ActionResult<ProductDto>> UpdateProductStock([FromBody] UpdateProductStockRequestDto updateProductStock)
         {
-            var product = await _mediator.Send(updateProductStockCommand).ConfigureAwait(false);
+            var command = new UpdateProductStockCommand
+            {
+                ProductId = updateProductStock.ProductId,
+                Stock = updateProductStock.Stock
+            };
+
+            var product = await _mediator.Send(command).ConfigureAwait(false);
             return Ok(product);
         }
     }

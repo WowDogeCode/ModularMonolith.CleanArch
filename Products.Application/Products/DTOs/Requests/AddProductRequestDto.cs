@@ -1,13 +1,10 @@
-﻿using MediatR;
-using Products.Application.Products.DTOs.Responses;
-
-namespace Products.Application.Products.AddProduct
+﻿namespace Products.Application.Products.DTOs.Requests
 {
-    public record AddProductCommand : IRequest<AddProductResponseDto>
+    public sealed class AddProductRequestDto
     {
         public int? SupplierId { get; init; }
         public int? CategoryId { get; init; }
-        public string ProductName { get; init; } 
+        public string ProductName { get; init; }
         public string? QuantityPerUnit { get; init; }
         public short UnitsInStock { get; init; }
         public short UnitsOnOrder { get; init; }

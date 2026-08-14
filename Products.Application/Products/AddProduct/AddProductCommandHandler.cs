@@ -2,11 +2,12 @@
 using FluentValidation;
 using MediatR;
 using Products.Application.Abstraction.Repositories;
+using Products.Application.Products.DTOs.Responses;
 using Products.Domain.Entities;
 
 namespace Products.Application.Products.AddProduct
 {
-    public sealed class AddProductCommandHandler : IRequestHandler<AddProductCommand, int>
+    public sealed class AddProductCommandHandler : IRequestHandler<AddProductCommand, AddProductResponseDto>
     {
         private readonly IProductRepository _productRepository;
         private readonly IValidator<AddProductCommand> _validator;
@@ -18,7 +19,7 @@ namespace Products.Application.Products.AddProduct
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<int> Handle(AddProductCommand request, CancellationToken cancellationToken)
+        public async Task<AddProductResponseDto> Handle(AddProductCommand request, CancellationToken cancellationToken)
         {
             // TEMP: Manual validation; switch to pipeline behavior later
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
@@ -43,7 +44,10 @@ namespace Products.Application.Products.AddProduct
             await _productRepository.AddAsync(productToAdd).ConfigureAwait(false);
             await _unitOfWork.CommitAsync().ConfigureAwait(false);
 
-            return productToAdd.Id;
+            return new AddProductResponseDto
+            {
+                ProductId = productToAdd.Id
+            };
         }
     }
 }
