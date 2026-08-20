@@ -14,8 +14,8 @@ namespace Orders.Application.Orders.PlaceOrder
                 .WithMessage("Each product can only be ordered once. Duplicate product ids found in order details.");
 
             RuleFor(x => x.CustomerId)
-                .MinimumLength(0)
-                .When(x => !string.IsNullOrEmpty(x.CustomerId))
+                .NotEmpty()
+                .When(x => x.CustomerId != null)
                 .WithMessage("Customer id must be longer than 0 character");
 
             RuleFor(x => x.EmployeeId)
